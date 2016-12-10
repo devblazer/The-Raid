@@ -1,0 +1,145 @@
+<!DOCTYPE html><!-- PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">-->
+<html lang="en">
+<head>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <meta charset="UTF-8">
+  <style>
+    body, html, canvas {
+      padding:0;
+      margin:0;
+      height:100%;
+      width:100%;
+      min-height:100%;
+      overflow:hidden;
+      background-color:#000;
+      color:#fff;
+    }
+    #debugger {
+      position:absolute;
+      top:10px;
+      left:10px;
+      width:400px;
+      background-color:rgba(0,0,0,0.5);
+      color:#fff;
+      padding:1px 10px;
+      font-size:12px;
+      border:#000 solid 1px;
+    }
+    .menu {
+      display:none;
+      margin: 15px auto 0;
+      border:#fff 1px solid;
+      padding:10px;
+      min-height:200px;
+      width:500px;
+      position:relative;
+    }
+    .open {
+      display:block;
+    }
+    .menu > h3 {
+      margin:0 0 1em;
+      padding:0.5em 0.5em;
+      background-color: #333;
+    }
+    .menu > input {
+      font-size:16px;
+      display:block;
+      min-width:50%;
+      margin-bottom:5px;
+    }
+    .menu > .btn {
+      position: absolute;
+      bottom:10px
+    }
+    .btn {
+      display: block;
+      border:#fff 1px solid;
+      padding:0 10px;
+      line-height:2em;
+      cursor:pointer;
+    }
+    .btn:hover {
+      background-color: #333;;
+    }
+    .menu > nav > .btn {
+      margin-bottom:5px;
+    }
+    .menu-closer {
+      position:absolute;
+      right:15px;
+      padding:0 5px;
+      line-height: 1.5em;
+      cursor:pointer;
+      border:#fff 1px solid;
+      top: 17px;
+      background-color: #000;;
+    }
+    .menu-closer:hover {
+      background-color: #555;
+    }
+    .btn-list {
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .btn-list > li {
+      display: block;
+      border:#fff 1px solid;
+      padding:0.25em 10px;
+      line-height:1.5em;
+      cursor:pointer;
+      margin-bottom:5px;
+    }
+    .btn-list > li:hover {
+      background-color: #333;;
+    }
+
+  </style>
+</head>
+<body>
+  <!--<div id="debugger"></div>-->
+
+  <div id="all_containers">
+    <section id="mnu_player" class="menu">
+      <h3>Login</h3>
+      <input type="text" id="inp_playerName" placeholder="Your username" />
+      <a id="btn_multiplayer" class="btn">Enter</a>
+    </section>
+    <section id="mnu_multiplayer" class="menu">
+      <a class="menu-closer" rel="mnu_player">X</a>
+      <h3>Multiplayer</h3>
+      <nav>
+        <a id="btn_host" class="btn">Host</a>
+        <a id="btn_join" class="btn">Join</a>
+      </nav>
+    </section>
+    <section id="mnu_host" class="menu">
+      <a class="menu-closer" rel="mnu_multiplayer">X</a>
+      <h3>Host game</h3>
+      <input type="text" id="inp_gameName" placeholder="Game name" />
+      <input type="text" id="inp_hostPassword" placeholder="Optional password" />
+      <a id="btn_create" class="btn">Create game</a>
+    </section>
+    <section id="mnu_games" class="menu">
+      <a class="menu-closer" rel="mnu_multiplayer">X</a>
+      <h3>Games</h3>
+      <ul id="lst_games" class="btn-list"></ul>
+    </section>
+    <section id="mnu_password" class="menu">
+      <a class="menu-closer" rel="mnu_games">X</a>
+      <h3>Authenticate</h3>
+      <input type="text" id="inp_joinPassword" placeholder="Game password" />
+      <a id="btn_authenticate" class="btn">Submit</a>
+    </section>
+    <section id="mnu_players" class="menu">
+      <a id="btn_close_players" class="menu-closer">X</a>
+      <h3 id="game_name"></h3>
+      <ul id="lst_players"></ul>
+      <a id="btn_start" class="btn">Ready</a>
+    </section>
+  </div>
+
+  <script src="build/bundle.js"></script>
+</body>
+</html>
