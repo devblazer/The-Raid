@@ -235,6 +235,7 @@ class Menu {
             else
                 API.startGame(res=>{
                     p.players = res;
+                    closeMenus();
                     p.hostGameCallback();
                 }, p.gameID, p.playerID);
         });
