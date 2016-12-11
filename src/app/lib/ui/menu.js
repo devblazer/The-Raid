@@ -255,6 +255,7 @@ class Menu {
                 API.startGame(res=>{
                     p.players = res;
                     closeMenus();
+                    p.curMenu = '';
                     p.hostGameCallback();
                 }, p.gameID, p.playerID);
         });

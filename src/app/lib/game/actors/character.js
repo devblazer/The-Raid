@@ -1,4 +1,4 @@
-import Util from './../Util.js';
+import Util from './../../Util.js';
 
 export default class Character {
     constructor(isEnemy=true, x=0, y=0, facing=0, id=null) {
@@ -12,13 +12,10 @@ export default class Character {
             lastY:y,
             xSpeed:0,
             ySpeed:0,
-            facing
+            facing,
+            spriteOffsetX:0,
+            spriteOffsetY:0
         }
-    }
-
-    draw(phaser) {
-        const p = this._private;
-        p.sprite = phaser.add.sprite(p.x, p.y, 'stone');
     }
     
     step(delta) {
@@ -32,8 +29,8 @@ export default class Character {
 
     render() {
         const p = this._private;
-        p.sprite.x = p.x;
-        p.sprite.y = p.y;
+        p.sprite.x = p.x+p.spriteOffsetX;
+        p.sprite.y = p.y+p.spriteOffsetY;
     }
 
     get x() {

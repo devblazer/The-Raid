@@ -11,56 +11,67 @@ if (['complete', 'loaded', 'interactive'].includes(document.readyState) && docum
 else
     window.addEventListener('DOMContentLoaded', run, false);
 
+const SINGLE_PLAYER = true;
+
 function run() {
     document.getElementById('all_containers').style.display = 'block';
-    
+
     const peer = new Peer({key: PEERJS_API_KEY});
     const input = new Input();
     input.bind();
 
-    peer.on('open', function(id) {
-        console.log('PeerJS: '+id);
-        Menu.bind(id, ()=>{
+    function init(id) {
+        console.log('PeerJS: ' + id);
+        Menu.bind(id, ()=> {
             let hostID = id;
             const guests = [];
             let players = Menu.players;
             for (let playerID in players)
                 if (hostID != playerID) {
-                    guests[playerID] = {id:playerID,name:players[playerID],conn:peer.connect(playerID)};
+                    guests[playerID] = {id: playerID, name: players[playerID], conn: peer.connect(playerID)};
                     let conn = guests[playerID].conn;
                     ((guestID)=> {
                         console.log(guestID);
                         conn.on('open', ()=> {
-                            conn.send({a:"identify",hostID,players},{reliable:true});
+                            conn.send({a: "identify", hostID, players}, {reliable: true});
                             console.log('Connected guest: ' + guestID);
                         });
-                        conn.on('data',data=>{
-                            game.receiveData(guestID,data);
+                        conn.on('data', data=> {
+                            game.receiveData(guestID, data);
                         });
                     })(playerID);
                 }
-            let game = new Game(input,true,hostID,Menu.playerID,players,guests);
+            let game = new Game(input, true, hostID, Menu.playerID, players, guests);
         });
-    });
-    peer.on('connection',conn=>{
-        Menu.guestStart();
-        let hostID = '';
-        let players = [];
-        let game = null;
-        hostID = conn.peer;
-        conn.on('data',data=>{
-            if (data.a == 'identify') {
-                hostID = data.hostID;
-                players = data.players;
-                console.log(conn);
-                game = new Game(input,false,hostID,Menu.playerID,players,conn);
-                console.log(`Connected to host: ${hostID}`);
-            }
-            else if (!hostID)
-                throw new Error('cannot send data before host is identified');
-            else
-                game.receiveData(hostID,data);
+    }
+
+
+    if (SINGLE_PLAYER)
+        init('fake id');
+    else
+        peer.on('open', init);
+
+    if (!SINGLE_PLAYER) {
+        peer.on('connection', conn=> {
+            Menu.guestStart();
+            let hostID = '';
+            let players = [];
+            let game = null;
+            hostID = conn.peer;
+            conn.on('data', data=> {
+                if (data.a == 'identify') {
+                    hostID = data.hostID;
+                    players = data.players;
+                    console.log(conn);
+                    game = new Game(input, false, hostID, Menu.playerID, players, conn);
+                    console.log(`Connected to host: ${hostID}`);
+                }
+                else if (!hostID)
+                    throw new Error('cannot send data before host is identified');
+                else
+                    game.receiveData(hostID, data);
+            });
         });
-    });
+    }
 }
 

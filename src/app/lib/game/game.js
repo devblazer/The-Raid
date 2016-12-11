@@ -1,9 +1,9 @@
 import Phaser from 'phaser-shim';
-import Player from './player.js';
+import Warrior from './actors/warrior.js';
 import Util from './../Util.js';
 
-const WIDTH = 800;
-const HEIGHT = 500;
+const WIDTH = 400;
+const HEIGHT = 250;
 const ASPECT = HEIGHT/WIDTH;
 
 export default class Game {
@@ -22,7 +22,7 @@ export default class Game {
         };
 
         for (let playerID in p.players)
-            p.playerObjs[playerID] = new Player(playerID, Math.random() * 800, Math.random() * 600);
+            p.playerObjs[playerID] = new Warrior(playerID, Math.random() * 0, Math.random() * 0);
         p.player = p.playerObjs[p.playerID];
 
         p.phaser = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, 'phaser-example', {
@@ -59,7 +59,7 @@ export default class Game {
     preload() {
         const p = this._private;
 
-        p.phaser.load.image('stone', '/textures/stone.png');
+        p.phaser.load.spritesheet('warrior', '/textures/warrior.png', 18, 18);
     }
 
     create() {

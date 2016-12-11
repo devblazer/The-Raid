@@ -5,8 +5,7 @@ export default class Player extends Character {
         super(true, x, y, facing, id);
 
         const p = this._private = {
-            ...this._private,
-            moveSpeed:100
+            ...this._private
         };
     }
     
