@@ -27,7 +27,7 @@ setInterval(function(){
     let hostDied = false;
     game.players = game.players.filter(player=>{
       player.lastPing = player.lastPing || time;
-      let res = player.lastPing > time - 5000;
+      let res = player.lastPing > time - 10000;
       if (!res && game.hostID == player.playerID)
           hostDied = true;
       return res;

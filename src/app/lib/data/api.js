@@ -1,6 +1,6 @@
 import Util from './../Util.js';
 
-const ENDPOINT = 'http://localhost:3000/api/';
+const ENDPOINT = '/api/';
 
 const xhttp = new XMLHttpRequest();
 const ajaxCall = (url,data={},callback=null)=>{

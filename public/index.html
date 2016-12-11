@@ -3,106 +3,9 @@
 <head>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <meta charset="UTF-8">
-  <style>
-    body, html, canvas {
-      padding:0;
-      margin:0;
-      height:100%;
-      width:100%;
-      min-height:100%;
-      overflow:hidden;
-      background-color:#000;
-      color:#fff;
-    }
-    #debugger {
-      position:absolute;
-      top:10px;
-      left:10px;
-      width:400px;
-      background-color:rgba(0,0,0,0.5);
-      color:#fff;
-      padding:1px 10px;
-      font-size:12px;
-      border:#000 solid 1px;
-    }
-    .loading {
-      opacity:0.5;
-    }
-    .menu {
-      display:none;
-      margin: 15px auto 0;
-      border:#fff 1px solid;
-      padding:10px;
-      min-height:200px;
-      width:500px;
-      position:relative;
-    }
-    .open {
-      display:block;
-    }
-    .menu > h3 {
-      margin:0 0 1em;
-      padding:0.5em 0.5em;
-      background-color: #333;
-    }
-    .menu > input {
-      font-size:16px;
-      display:block;
-      min-width:50%;
-      margin-bottom:5px;
-    }
-    .menu > .btn {
-      position: absolute;
-      bottom:10px
-    }
-    .btn {
-      display: block;
-      border:#fff 1px solid;
-      padding:0 10px;
-      line-height:2em;
-      cursor:pointer;
-    }
-    .btn:hover {
-      background-color: #333;;
-    }
-    .menu > nav > .btn {
-      margin-bottom:5px;
-    }
-    .menu-closer {
-      position:absolute;
-      right:15px;
-      padding:0 5px;
-      line-height: 1.5em;
-      cursor:pointer;
-      border:#fff 1px solid;
-      top: 17px;
-      background-color: #000;;
-    }
-    .menu-closer:hover {
-      background-color: #555;
-    }
-    .btn-list {
-      margin:0;
-      padding:0;
-      list-style:none;
-    }
-    .btn-list > li {
-      display: block;
-      border:#fff 1px solid;
-      padding:0.25em 10px;
-      line-height:1.5em;
-      cursor:pointer;
-      margin-bottom:5px;
-    }
-    .btn-list > li:hover {
-      background-color: #333;;
-    }
-
-  </style>
 </head>
 <body>
   <!--<div id="debugger"></div>-->
-
   <div id="all_containers">
     <section id="mnu_player" class="menu">
       <h3>Login</h3>
@@ -142,6 +45,10 @@
       <a id="btn_start" class="btn">Ready</a>
     </section>
   </div>
+<!--
+  <div id="canvasHolder" class="hidden">
+    <canvas width="900" height="600"></canvas>
+  </div>-->
 
   <script src="build/bundle.js"></script>
 </body>

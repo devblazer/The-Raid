@@ -10,8 +10,10 @@ const closeMenus = ()=>{
         el.className = 'menu';
     });
 };
-const openMenu = id=>{
+const openMenu = function(id) {
     closeMenus();
+    const p = this._private;
+    p.curMenu = id;
     document.body.className = '';
     document.getElementById(id).className += ' open';
 };
@@ -53,7 +55,7 @@ const joinGame = function() {
         if (res=='password') {
             alert('password incorrect');
             document.getElementById('inp_joinPassword').value = '';
-            openMenu('mnu_password');
+            openMenu.call(this,'mnu_password');
         }
         else if (res) {
             p.gameName = res;
@@ -62,13 +64,17 @@ const joinGame = function() {
         else {
             refreshGames.call(me);
             alert('failed to join games');
-            openMenu('mnu_games');
+            openMenu.call(this,'mnu_games');
         }
     }, p.playerID, p.playerName, p.gameID, p.password);
 };
 
 const refreshPlayers = function(callback) {
     const p = this._private;
+
+    if (p.curMenu != 'mnu_players')
+        return;
+
     API.listPlayers(res=>{
         if (res) {
             p.players = res;
@@ -85,30 +91,37 @@ const refreshPlayers = function(callback) {
 
 const openPlayers = function() {
     const p = this._private;
+    p.curMenu = 'mnu_players';
     const me = this;
     loading();
+
     const refreshPlayersCallback = function(res) {
+        if (p.curMenu != 'mnu_players')
+            return;
         if (res)
             window.setTimeout(()=>{
+                if (p.curMenu != 'mnu_players')
+                    return;
                 refreshPlayers.call(me,refreshPlayersCallback);
             },1000);
         else {
             if (p.isHost) {
                 alert('failed to create player list');
-                openMenu('mnu_host');
+                openMenu.call(this,'mnu_host');
             }
             else {
                 alert('failed to fetch player list');
-                openMenu('mnu_games');
+                openMenu.call(this,'mnu_games');
             }
         }
     };
+
     refreshPlayers.call(me,res=>{
         refreshPlayersCallback(res);
         if (res) {
             document.getElementById('game_name').innerHTML = p.gameName;
             document.getElementById('btn_start').innerHTML = p.isHost ? 'Start game' : 'Ready';
-            openMenu('mnu_players');
+            openMenu.call(this,'mnu_players');
         }
     });
 };
@@ -116,11 +129,16 @@ const openPlayers = function() {
 const handleOpenGames = function() {
     const p = this._private;
     const me = this;
+    p.curMenu = 'mnu_games';
     loading();
     p.isHost = false;
 
     function reloadGames(callback=null) {
+        if (p.curMenu != 'mnu_games')
+            return;
         API.listGames(res=>{
+            if (p.curMenu != 'mnu_games')
+                return;
             if (res) {
                 p.games = res;
                 refreshGames.call(me);
@@ -130,12 +148,12 @@ const handleOpenGames = function() {
             }
             else {
                 alert('failed to fetch games');
-                openMenu('mnu_multiplayer');
+                openMenu.call(this,'mnu_multiplayer');
             }
         });
     }
     reloadGames(()=>{
-        openMenu('mnu_games');
+        openMenu.call(this,'mnu_games');
     });
 };
 
@@ -148,7 +166,8 @@ class Menu {
             password: '',
             games: [],
             players: [],
-            hostGameCallback: null
+            hostGameCallback: null,
+            curMenu:''
         };
     }
 
@@ -158,7 +177,7 @@ class Menu {
         p.playerID = playerID;
         p.hostGameCallback = hostGameCallback;
 
-        openMenu('mnu_player');
+        openMenu.call(this,'mnu_player');
 
         // handle menu-closer clicks
         document.getElementById('all_containers').addEventListener('click',e=>{
@@ -166,16 +185,16 @@ class Menu {
                 if (e.target.getAttribute('rel') == 'mnu_games')
                     handleOpenGames.call(me);
                 else
-                    openMenu(e.target.getAttribute('rel'));
+                    openMenu.call(this,e.target.getAttribute('rel'));
             }
         },true);
         document.getElementById('btn_close_players').addEventListener('click',()=>{
             loading();
             API.disconnectFromGame(()=> {
                 if (p.isHost)
-                    openMenu('mnu_host');
+                    openMenu.call(this,'mnu_host');
                 else
-                    openMenu('mnu_games');
+                    openMenu.call(this,'mnu_games');
             }, p.playerID, p.gameID);
         });
 
@@ -186,7 +205,7 @@ class Menu {
                 alert('Player name required');
                 return;
             }
-            openMenu('mnu_multiplayer');
+            openMenu.call(this,'mnu_multiplayer');
         });
 
         // handle multiplayer clicks
@@ -194,7 +213,7 @@ class Menu {
             p.isHost = true;
             document.getElementById('inp_gameName').value = '';
             document.getElementById('inp_hostPassword').value = '';
-            openMenu('mnu_host');
+            openMenu.call(this,'mnu_host');
         });
         document.getElementById('btn_join').addEventListener('click',handleOpenGames.bind(me));
         
@@ -209,7 +228,7 @@ class Menu {
                 return game.gameID == p.gameID;
             })[0].hasPassword) {
                 document.getElementById('inp_joinPassword').value = '';
-                openMenu('mnu_password');
+                openMenu.call(this,'mnu_password');
             }
             else
                 joinGame.call(this);
@@ -241,6 +260,11 @@ class Menu {
         });
     }
 
+    guestStart() {
+        closeMenus();
+        this._private.curMenu = '';
+    }
+
     get isHost() {
         return this._private.isHost;
     }
@@ -252,6 +276,9 @@ class Menu {
     }
     get playerName() {
         return this._private.playerName;
+    }
+    get playerID() {
+        return this._private.playerID;
     }
     get players() {
         let ret = {};

@@ -1,8 +1,103 @@
-body, html, canvas {
+body, html {
   padding:0;
   margin:0;
   height:100%;
   width:100%;
   min-height:100%;
   overflow:hidden;
+  background-color:#111;
+  color:#fff;
+}
+canvas {
+  background-color: #000;
+  display:block;
+  position:relative;
+  margin:0 auto !important;
+}
+.table-it {
+  display:table-cell;
+  vertical-align: middle;
+}
+#debugger {
+  position:absolute;
+  top:10px;
+  left:10px;
+  width:400px;
+  background-color:rgba(0,0,0,0.5);
+  color:#fff;
+  padding:1px 10px;
+  font-size:12px;
+  border:#000 solid 1px;
+}
+.loading {
+  opacity:0.5;
+}
+.menu {
+  display:none;
+  margin: 15px auto 0;
+  border:#fff 1px solid;
+  padding:10px;
+  min-height:200px;
+  width:500px;
+  position:relative;
+}
+.open {
+  display:block;
+}
+.menu > h3 {
+  margin:0 0 1em;
+  padding:0.5em 0.5em;
+  background-color: #333;
+}
+.menu > input {
+  font-size:16px;
+  display:block;
+  min-width:50%;
+  margin-bottom:5px;
+}
+.menu > .btn {
+  position: absolute;
+  bottom:10px
+}
+.btn {
+  display: block;
+  border:#fff 1px solid;
+  padding:0 10px;
+  line-height:2em;
+  cursor:pointer;
+}
+.btn:hover {
+  background-color: #333;;
+}
+.menu > nav > .btn {
+  margin-bottom:5px;
+}
+.menu-closer {
+  position:absolute;
+  right:15px;
+  padding:0 5px;
+  line-height: 1.5em;
+  cursor:pointer;
+  border:#fff 1px solid;
+  top: 17px;
+  background-color: #000;;
+}
+.menu-closer:hover {
+  background-color: #555;
+}
+.btn-list {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.btn-list > li {
+  display: block;
+  border:#fff 1px solid;
+  padding:0.25em 10px;
+  line-height:1.5em;
+  cursor:pointer;
+  margin-bottom:5px;
+}
+.btn-list > li:hover {
+  background-color: #333;;
 }

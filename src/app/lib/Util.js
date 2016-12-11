@@ -3,7 +3,22 @@ import $ from 'jquery';
 const RAD = Math.PI/180;
 const UID_CHARS = 'abcdefghijklmnopqrstuvwxyz01234567890'.split('');
 
+let DEBUG_KEY = false;
+
 export default {
+    activateDebugKey() {
+        DEBUG_KEY = true;
+    },
+    debug() {
+        if (!DEBUG_KEY)
+            return;
+        DEBUG_KEY = false;
+
+        let a = [];
+        for (let p in arguments)
+            a.push(arguments[p]);
+        console.log.apply(console,a);
+    },
     uid(l=8){
         let s='';
         for (let n=0;n<l;n++)

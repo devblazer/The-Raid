@@ -21,7 +21,10 @@ var config = {
   },
   module: {
     loaders: [
-
+      {
+        loader: 'script-loader',// script-loader
+        test: /(pixi|phaser).js/
+      },
     // I highly recommend using the babel-loader as it gives you
     // ES6/7 syntax and JSX transpiling out of the box
     {
@@ -31,7 +34,7 @@ var config = {
       query: {
         optional: ['runtime'],
         stage: 0
-      },
+      }
     },
 
     // Let us also add the style-loader and css-loader, which you can
