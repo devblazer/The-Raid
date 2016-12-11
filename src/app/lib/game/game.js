@@ -123,11 +123,12 @@ export default class Game {
     
     sendData(delta) {
         const p = this._private;
+        let time = (new Date()).getTime();
 
         if (p.isHost) {
             let playerMoveData = [];
             for (let i in p.playerObjs)
-                playerMoveData.push({i,x:p.playerObjs[i].x,y:p.playerObjs[i].y,f:p.playerObjs[i].facing,xs:p.playerObjs[i].xSpeed,ys:p.playerObjs[i].ySpeed});
+                playerMoveData.push({t:time,i,x:p.playerObjs[i].x,y:p.playerObjs[i].y,f:p.playerObjs[i].facing,xs:p.playerObjs[i].xSpeed,ys:p.playerObjs[i].ySpeed});
 
             for (let g in p.guestConns) {
                 p.guestConns[g].conn.send({
@@ -139,9 +140,7 @@ export default class Game {
             }
         }
         else {
-            Util.debug({a:'pp',x:p.player.x,y:p.player.y,f:p.player.facing,xs:p.player.xSpeed,ys:p.player.ySpeed},p.hostConn);
-
-            p.hostConn.send({a:'pp',x:p.player.x,y:p.player.y,f:p.player.facing,xs:p.player.xSpeed,ys:p.player.ySpeed});
+            p.hostConn.send({t:time,a:'pp',x:p.player.x,y:p.player.y,f:p.player.facing,xs:p.player.xSpeed,ys:p.player.ySpeed});
         }
     }
 

@@ -12,6 +12,8 @@ else
     window.addEventListener('DOMContentLoaded', run, false);
 
 function run() {
+    document.getElementById('all_containers').style.display = 'block';
+    
     const peer = new Peer({key: PEERJS_API_KEY});
     const input = new Input();
     input.bind();

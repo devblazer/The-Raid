@@ -54,6 +54,7 @@ export default class Character {
 
     setPos(data) {
         const p = this._private;
+
         p.x = data.x;
         p.y = data.y;
         p.facing = data.f;
