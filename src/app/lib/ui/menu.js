@@ -55,7 +55,7 @@ const joinGame = function() {
         if (res=='password') {
             alert('password incorrect');
             document.getElementById('inp_joinPassword').value = '';
-            openMenu.call(this,'mnu_password');
+            openMenu.call(me,'mnu_password');
         }
         else if (res) {
             p.gameName = res;
@@ -64,7 +64,7 @@ const joinGame = function() {
         else {
             refreshGames.call(me);
             alert('failed to join games');
-            openMenu.call(this,'mnu_games');
+            openMenu.call(me,'mnu_games');
         }
     }, p.playerID, p.playerName, p.gameID, p.password);
 };
@@ -107,11 +107,11 @@ const openPlayers = function() {
         else {
             if (p.isHost) {
                 alert('failed to create player list');
-                openMenu.call(this,'mnu_host');
+                openMenu.call(me,'mnu_host');
             }
             else {
                 alert('failed to fetch player list');
-                openMenu.call(this,'mnu_games');
+                openMenu.call(me,'mnu_games');
             }
         }
     };
@@ -121,7 +121,7 @@ const openPlayers = function() {
         if (res) {
             document.getElementById('game_name').innerHTML = p.gameName;
             document.getElementById('btn_start').innerHTML = p.isHost ? 'Start game' : 'Ready';
-            openMenu.call(this,'mnu_players');
+            openMenu.call(me,'mnu_players');
         }
     });
 };
@@ -148,12 +148,12 @@ const handleOpenGames = function() {
             }
             else {
                 alert('failed to fetch games');
-                openMenu.call(this,'mnu_multiplayer');
+                openMenu.call(me,'mnu_multiplayer');
             }
         });
     }
     reloadGames(()=>{
-        openMenu.call(this,'mnu_games');
+        openMenu.call(me,'mnu_games');
     });
 };
 
@@ -177,7 +177,7 @@ class Menu {
         p.playerID = playerID;
         p.hostGameCallback = hostGameCallback;
 
-        openMenu.call(this,'mnu_player');
+        openMenu.call(me,'mnu_player');
 
         // handle menu-closer clicks
         document.getElementById('all_containers').addEventListener('click',e=>{
@@ -185,16 +185,16 @@ class Menu {
                 if (e.target.getAttribute('rel') == 'mnu_games')
                     handleOpenGames.call(me);
                 else
-                    openMenu.call(this,e.target.getAttribute('rel'));
+                    openMenu.call(me,e.target.getAttribute('rel'));
             }
         },true);
         document.getElementById('btn_close_players').addEventListener('click',()=>{
             loading();
             API.disconnectFromGame(()=> {
                 if (p.isHost)
-                    openMenu.call(this,'mnu_host');
+                    openMenu.call(me,'mnu_host');
                 else
-                    openMenu.call(this,'mnu_games');
+                    openMenu.call(me,'mnu_games');
             }, p.playerID, p.gameID);
         });
 
@@ -205,7 +205,7 @@ class Menu {
                 alert('Player name required');
                 return;
             }
-            openMenu.call(this,'mnu_multiplayer');
+            openMenu.call(me,'mnu_multiplayer');
         });
 
         // handle multiplayer clicks
@@ -213,7 +213,7 @@ class Menu {
             p.isHost = true;
             document.getElementById('inp_gameName').value = '';
             document.getElementById('inp_hostPassword').value = '';
-            openMenu.call(this,'mnu_host');
+            openMenu.call(me,'mnu_host');
         });
         document.getElementById('btn_join').addEventListener('click',handleOpenGames.bind(me));
         
@@ -228,7 +228,7 @@ class Menu {
                 return game.gameID == p.gameID;
             })[0].hasPassword) {
                 document.getElementById('inp_joinPassword').value = '';
-                openMenu.call(this,'mnu_password');
+                openMenu.call(me,'mnu_password');
             }
             else
                 joinGame.call(this);
