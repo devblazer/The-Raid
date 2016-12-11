@@ -11,7 +11,7 @@ if (['complete', 'loaded', 'interactive'].includes(document.readyState) && docum
 else
     window.addEventListener('DOMContentLoaded', run, false);
 
-const SINGLE_PLAYER = true;
+const SINGLE_PLAYER = false;
 
 function run() {
     document.getElementById('all_containers').style.display = 'block';
