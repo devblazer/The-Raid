@@ -18,7 +18,7 @@ export default class Character {
         }
     }
     
-    step(delta) {
+    step(delta,keyStates) {
         const p = this._private;
 
         p.lastX = p.x;

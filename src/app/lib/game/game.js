@@ -88,25 +88,18 @@ export default class Game {
         let delta = (newTime - p.time) / 1000;
         p.time = newTime;
 
-        this.input(delta);
         this.step(delta);
         this.collisions(delta);
         this.render(delta);
         this.sendData(delta);
     }
 
-    input(delta) {
-        const p = this._private;
-
-        let keyStates = p.input.getKeyStates();
-        p.player.processInput(delta, keyStates);
-    }
-
     step(delta) {
         const p = this._private;
+        let keyStates = p.input.getKeyStates();
 
         for (let i in p.playerObjs)
-            p.playerObjs[i].step(delta);
+            p.playerObjs[i].step(delta,i==p.playerID?keyStates:null);
     }
 
     collisions(delta) {
@@ -128,7 +121,7 @@ export default class Game {
         if (p.isHost) {
             let playerMoveData = [];
             for (let i in p.playerObjs)
-                playerMoveData.push({t:time,i,x:p.playerObjs[i].x,y:p.playerObjs[i].y,f:p.playerObjs[i].facing,xs:p.playerObjs[i].xSpeed,ys:p.playerObjs[i].ySpeed});
+                playerMoveData.push({t:time,i,x:p.playerObjs[i].x,y:p.playerObjs[i].y,f:p.playerObjs[i].facing,xs:p.playerObjs[i].xSpeed,ys:p.playerObjs[i].ySpeed,c:p.playerObjs[i].currentAction,g:p.playerObjs[i].isGuarding});
 
             for (let g in p.guestConns) {
                 p.guestConns[g].conn.send({
@@ -140,7 +133,7 @@ export default class Game {
             }
         }
         else {
-            p.hostConn.send({t:time,a:'pp',x:p.player.x,y:p.player.y,f:p.player.facing,xs:p.player.xSpeed,ys:p.player.ySpeed});
+            p.hostConn.send({t:time,a:'pp',x:p.player.x,y:p.player.y,f:p.player.facing,xs:p.player.xSpeed,ys:p.player.ySpeed,c:p.player.currentAction,g:p.player.isGuarding});
         }
     }
 

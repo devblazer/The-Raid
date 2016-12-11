@@ -16,10 +16,15 @@ const handleKeydown = function(e) {
 };
 
 const KEYS = {
-    87:'up',
-    83:'down',
-    65:'left',
-    68:'right',
+    38:'up',
+    40:'down',
+    37:'left',
+    39:'right',
+    68:'primary',
+    83:'secondary',
+    65:'tertiary',
+    32:'defend',
+    16:'aim',
     192:'debug'
 };
 
